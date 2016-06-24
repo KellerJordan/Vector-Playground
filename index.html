@@ -1,0 +1,55 @@
+<html>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<body>
+		<svg>
+		</svg>
+	</body>
+	<style>
+	svg{
+		border: 1px solid black;
+	}
+	line{
+		stroke:black;
+		stroke-width:2;
+	}
+	</style>
+	<script src="vector.js"></script>
+	<script src="matrix.js"></script>
+	<script>
+		var origin={x:0,y:0,z:0};
+		var coordPlane={xAxis: new line({x:-2,y:0,z:0},{x:20,y:0,z:0}), zAxis: new line({x:0,y:-2,z:0},{x:0,y:20,z:0}), yAxis: new line({x:0,y:0,z:-2},{x:0,y:0,z:20})};
+		var vect1={x:11,y:6,z:6}, vect2={x:5,y:6,z:10};
+		var myPGram=new pGram(vect1,vect2);
+		var vect3=vCrossProduct(vect1,vect2);
+		var vect4=new line(ogn,vMultiply(vect3,1/vDistance(vect3,vect3)));
+		var vect5=new line(ogn,i);
+
+		function render(){
+			coordPlane.xAxis.draw();
+			coordPlane.yAxis.draw();
+			coordPlane.zAxis.draw();
+			myPGram.draw();
+			vect4.draw("red");
+			vect5.draw("red");
+		}
+
+		$(window).keydown(function(e){
+			switch(e.which){
+				case 87: myX+=10; break;
+				case 83: myX-=10; break;
+				case 68: myY+=10; break;
+				case 65: myY-=10; break;
+				case 32: myZ+=10; break;
+				case 16: myZ-=10; break;
+				case 82: scX+=50; break;
+				case 70: scX-=50; break;
+			}
+			render();
+		});
+		$(window).mousemove(function(e){
+			rotY=rotY0+Math.PI/2*(wW/2-e.clientX)/(wW/2);
+			rotZ=rotZ0+Math.PI/2*(wH/2-e.clientY)/(wH/2);
+			render();
+		});
+	</script>
+</html>
