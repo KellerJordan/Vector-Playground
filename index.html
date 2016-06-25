@@ -16,9 +16,8 @@
 	<script src="vector.js"></script>
 	<script src="matrix.js"></script>
 	<script>
-		var origin={x:0,y:0,z:0};
-		var coordPlane={xAxis: new line({x:-2,y:0,z:0},{x:20,y:0,z:0}), zAxis: new line({x:0,y:-2,z:0},{x:0,y:20,z:0}), yAxis: new line({x:0,y:0,z:-2},{x:0,y:0,z:20})};
-		var vect1={x:11,y:6,z:6}, vect2={x:5,y:6,z:10};
+		var coordPlane={xAxis: new line([-2,0,0],[20,0,0]), zAxis: new line([0,-2,0],[0,20,0]), yAxis: new line([0,0,-2],[0,0,20])};
+		var vect1=[11,6,6], vect2=[5,6,10];
 		var myPGram=new pGram(vect1,vect2);
 		var vect3=vCrossProduct(vect1,vect2);
 		var vect4=new line(ogn,vMultiply(vect3,1/vDistance(vect3,vect3)));
@@ -44,11 +43,12 @@
 				case 82: scX+=50; break;
 				case 70: scX-=50; break;
 			}
-			render();
 		});
 		$(window).mousemove(function(e){
 			rotY=rotY0+Math.PI/2*(wW/2-e.clientX)/(wW/2);
 			rotZ=rotZ0+Math.PI/2*(wH/2-e.clientY)/(wH/2);
+		});
+		$(window).on("keydown mousemove",function(){
 			render();
 		});
 	</script>

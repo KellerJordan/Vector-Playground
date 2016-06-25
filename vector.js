@@ -3,30 +3,32 @@ var wH=$(window).height()-18;
 $("svg").attr("width",wW).attr("height",wH);
 
 var scX=1000, myX=25, myY=25, myZ=25, rotY=0, rotZ=0, rotY0=Math.PI/4, rotZ0=-Math.PI/4;
-var ogn={x:0,y:0,z:0},i={x:1,y:0,z:0},j={x:0,y:1,z:0},k={x:0,y:0,z:1};
+var ogn=[0,0,0],i=[1,0,0],j=[0,1,0],k=[0,0,1];
 
 function pMod(coord,x){return(coord*scX/x);}
 
 function getPoint(point){
-	var x=-1*(point.x-myX), y=point.y-myY, z=-1*(point.z-myZ);
+	var x=-1*(point[0]-myX), y=point[1]-myY, z=-1*(point[2]-myZ);
 	var y2=y*Math.cos(rotY)+x*Math.sin(rotY);
 	var x2=x*Math.cos(rotY)-y*Math.sin(rotY);
 	var z2=z*Math.cos(rotZ)+x2*Math.sin(rotZ);
 	var x2=x2*Math.cos(rotZ)-z*Math.sin(rotZ);
-	return {x:pMod(y2,x2),y:pMod(z2,x2)};
+	return [pMod(y2,x2),pMod(z2,x2)];
 }
 
-function vAdd(v1,v2){return {x:v1.x+v2.x,y:v1.y+v2.y,z:v1.z+v2.z}}
+//could add checks for vectors same dimension
+function vAdd(v1,v2){var result=[];for(var i in v1){result.push(v1[i]+v2[i])}return result}
 
-function vSubtract(v1,v2){return {x:v1.x-v2.x,y:v1.y-v2.y,z:v1.z-v2.z}}
+function vSubtract(v1,v2){var result=[];for(var i in v){result.push(v1[i]-v2[i])}return result}
 
-function vMultiply(v,s){return {x:s*v.x,y:s*v.y,z:s*v.z}}
+function vMultiply(v,s){var result=[];for(var i in v){result.push(s*v[i])}return result}
 
-function vDotProduct(v1,v2){return {x:v1.x*v2.x,y:v1.y*v2.y,z:v1.z*v2.z}}
+function vDotProduct(v1,v2){var result=0;for(var i in v1){result+=v1[i]*v2[i]}return result}
 
-function vCrossProduct(v1,v2){return {x:mDeterminant([[v1.y,v1.z],[v2.y,v2.z]]),y:-1*mDeterminant([[v1.x,v1.z],[v2.x,v2.z]]),z:mDeterminant([[v1.x,v1.y],[v2.x,v2.y]])}}
+//only 3 dimensions
+function vCrossProduct(v1,v2){return [mDeterminant([[v1[1],v1[2]],[v2[1],v2[2]]]),-1*mDeterminant([[v1[0],v1[2]],[v2[0],v2[2]]]),mDeterminant([[v1[0],v1[1]],[v2[0],v2[1]]])]}
 
-function vDistance(v){d=vDotProduct(v,v);return Math.sqrt(d.x+d.y+d.z);}
+function vDistance(v){return Math.sqrt(vDotProduct(v,v))}
 
 class line{
 	constructor(p,v){
@@ -36,7 +38,7 @@ class line{
 	}
 	draw(color){
 		var p1=getPoint(this.p), p2=getPoint(vAdd(this.p,this.v));
-		$(this.drawnLine).attr("x1",p1.x+wW/2).attr("y1",p1.y+wH/2).attr("x2",p2.x+wW/2).attr("y2",p2.y+wH/2);
+		$(this.drawnLine).attr("x1",p1[0]+wW/2).attr("y1",p1[1]+wH/2).attr("x2",p2[0]+wW/2).attr("y2",p2[1]+wH/2);
 		if(color){$(this.drawnLine).css("stroke",color);}
 	}
 }
