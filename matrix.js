@@ -8,31 +8,23 @@ function mAdd(m1,m2){
 }
 
 function mDeterminant(m){
-	var d=0;
-	if(m.length==2){
-		return m[0][0]*m[1][1]-m[0][1]*m[1][0];
-	}
-	for(var i in m[0]){
-		d+=Math.pow(-1,i)*m[0][i]*mDeterminant(mSplice(m.slice(1),i))
-	}
-	return d;
+	if(m.length==2){return m[0][0]*m[1][1]-m[0][1]*m[1][0]}
+	var result=0;
+	for(var i in m[0]){result+=Math.pow(-1,i)*m[0][i]*mDeterminant(mSplice(m.slice(1),i))}
+	return result;
 }
 
-// function mInvert(){
-	
-// }
-
 function mSplice(m,missingCol){
-	subMatrix=[];
+	var result=[];
 	for(var i in m){
-		subMatrix.push([]);
+		result.push([]);
 		for(var j in m[i]){
 			if(!(j==missingCol)){
-				subMatrix[i].push(m[i][j]);
+				result[i].push(m[i][j]);
 			}
 		}
 	}
-	return subMatrix;
+	return result;
 }
 
 function mMultiply(m1,m2){

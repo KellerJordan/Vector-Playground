@@ -5,51 +5,19 @@
 		</svg>
 	</body>
 	<style>
-	svg{
-		border: 1px solid black;
-	}
-	line{
-		stroke:black;
-		stroke-width:2;
-	}
+	svg { border: 1px solid black }
+	line { stroke:black; stroke-width:2 }
 	</style>
-	<script src="vector.js"></script>
-	<script src="matrix.js"></script>
+	<script src="3drender.js"></script><script src="vector.js"></script><script src="matrix.js"></script><script src="examplefuncs.js"></script>
 	<script>
-		var coordPlane={xAxis: new line([-2,0,0],[20,0,0]), zAxis: new line([0,-2,0],[0,20,0]), yAxis: new line([0,0,-2],[0,0,20])};
-		var vect1=[11,6,6], vect2=[5,6,10];
-		var myPGram=new pGram(vect1,vect2);
-		var vect3=vCrossProduct(vect1,vect2);
-		var vect4=new line(ogn,vMultiply(vect3,1/vDistance(vect3,vect3)));
-		var vect5=new line(ogn,i);
+		function render(){for(var i in drawList){drawList[i].draw()}}
 
-		function render(){
-			coordPlane.xAxis.draw();
-			coordPlane.yAxis.draw();
-			coordPlane.zAxis.draw();
-			myPGram.draw();
-			vect4.draw("red");
-			vect5.draw("red");
-		}
-
-		$(window).keydown(function(e){
-			switch(e.which){
-				case 87: myX+=10; break;
-				case 83: myX-=10; break;
-				case 68: myY+=10; break;
-				case 65: myY-=10; break;
-				case 32: myZ+=10; break;
-				case 16: myZ-=10; break;
-				case 82: scX+=50; break;
-				case 70: scX-=50; break;
-			}
-		});
-		$(window).mousemove(function(e){
-			rotY=rotY0+Math.PI/2*(wW/2-e.clientX)/(wW/2);
-			rotZ=rotZ0+Math.PI/2*(wH/2-e.clientY)/(wH/2);
-		});
-		$(window).on("keydown mousemove",function(){
-			render();
-		});
+		$(window).on("mousewheel",function(e){
+			myX*=Math.pow(1.1,(e.originalEvent.wheelDelta/-120));
+		}).on("mousemove",function(e){
+			rotY=rotY0-3*Math.PI/2*(wW/2-e.clientX+9)/(wW/2);
+			rotZ=rotZ0-Math.PI/2*(wH/2-e.clientY+4.5)/(wH/2);
+			if(rotZ>1*Math.PI/2){rotZ=1*Math.PI/2}if(rotZ<0){rotZ=0}
+		}).on("keydown mousemove mousewheel load",function(){render()});
 	</script>
 </html>
