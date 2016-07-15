@@ -52,5 +52,6 @@ function isValid(point){
 
 // plotPath(function(t){return [t,.5*t,Math.cos(t)]},.1,10);
 
-plotSurface(function(x,y){return [x,y,Math.sqrt(10-x*x-y*y)]},10);
-plotSurface(function(x,y){return [x,y,-1*Math.sqrt(10-x*x-y*y)]},10);
+// plotSurface(function(x,y){return [x,y,Math.sqrt(10-x*x-y*y)]},10);
+// plotSurface(function(x,y){return [x,y,-1*Math.sqrt(10-x*x-y*y)]},10);
+plotSurface(function(x,y){return [x,y,Math.cos(x+y)+x*x/6+y*y/6]},10);
