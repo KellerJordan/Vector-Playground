@@ -35,14 +35,18 @@ function rotatePoint(p,y,z){
 }
 
 class line{
-	constructor(p,v){
-		this.p=p, this.v=v;
+	constructor(p,v,c){
+		this.p=p, this.v=v, this.c=c;
 		this.drawnLine=document.createElementNS("http://www.w3.org/2000/svg","line");
 		$("svg").append(this.drawnLine);
 	}
 	draw(color){
 		var p1=getPoint(rotatePoint(this.p)), p2=getPoint(rotatePoint(vAdd(this.p,this.v)));
 		$(this.drawnLine).attr("x1",p1[0]+wW/2).attr("y1",p1[1]+wH/2).attr("x2",p2[0]+wW/2).attr("y2",p2[1]+wH/2);
-		if(color){$(this.drawnLine).css("stroke",color);}
+		if(color){
+			$(this.drawnLine).css("stroke",color);
+		}else if(this.c){
+			$(this.drawnLine).css("stroke",this.c);
+		}
 	}
 }

@@ -8,7 +8,7 @@
 	svg { border: 1px solid black }
 	line { stroke:black; stroke-width:2 }
 	</style>
-	<script src="3drender.js"></script><script src="vector.js"></script><script src="matrix.js"></script><script src="examplefuncs.js"></script>
+	<script src="3drender.js"></script><script src="vector.js"></script><script src="matrix.js"></script><script src="complex.js"></script><script src="examplefuncs.js"></script>
 	<script>
 		function render(){for(var i in drawList){drawList[i].draw()}}
 
@@ -19,5 +19,7 @@
 			rotZ=rotZ0-Math.PI/2*(wH/2-e.clientY+4.5)/(wH/2);
 			if(rotZ>1*Math.PI/2){rotZ=1*Math.PI/2}if(rotZ<0){rotZ=0}
 		}).on("keydown mousemove mousewheel load",function(){render()});
+
+		// for reasons I don't understand it seems like holding control and alt while moving the mouse causes a ton of lag? Oh maybe the keys cause their own events
 	</script>
 </html>

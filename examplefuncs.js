@@ -1,5 +1,5 @@
-// drawing axes
-var bound=20;
+// drawing axes with length bound
+var bound=10;
 var drawList=[new line([-.1*bound,0,0],[1.1*bound,0,0]), new line([0,-.1*bound,0],[0,1.1*bound,0]), new line([0,0,-.1*bound],[0,0,1.1*bound])];
 
 // var vect1=[10,6,7], vect2=[-9,10,8];
@@ -33,25 +33,37 @@ function plotPath(func,step,max){
 }
 
 function plotSurface(func,max){
-	var step=max/25;
+	var step=max/15;
 	for(var s=-1*max;s<max;s+=step){
 		var curr;
 		var prev=func(s,-1*max);
 		for(var t=-1*max+step;t<max;t+=step){
 			curr=func(s,t);
 			if(isValid(prev)&&isValid(curr)){drawList.push(new line(prev,vSubtract(curr,prev)));}
+			// drawList.push(new line(prev,vSubtract(curr,prev)));
+			prev=curr;
+		}
+		var prev=func(-1*max,s);
+		for(var t=-1*max+step;t<max;t+=step){
+			curr=func(t,s);
+			if(isValid(prev)&&isValid(curr)){drawList.push(new line(prev,vSubtract(curr,prev)));}
+			// drawList.push(new line(prev,vSubtract(curr,prev)));
 			prev=curr;
 		}
 	}
 }
 
 function isValid(point){
-	for(var i in point){if(!point[i]){return false;}}
+	for(var i in point){if(isNaN(point[i])){return false;}}
 	return true;
 }
 
-// plotPath(function(t){return [t,.5*t,Math.cos(t)]},.1,10);
+// var cvect1=[2,2];
+// var cvect2=[2,5];
+// cPlot(cvect1);
+// cPlot(cvect2);
+// cPlot(cMultiply(cvect1,cvect2));
 
-// plotSurface(function(x,y){return [x,y,Math.sqrt(10-x*x-y*y)]},10);
-// plotSurface(function(x,y){return [x,y,-1*Math.sqrt(10-x*x-y*y)]},10);
-plotSurface(function(x,y){return [x,y,Math.cos(x+y)+x*x/6+y*y/6]},10);
+// plotSurface(function(x,y){return [x,y,Math.cos(x+y)+x*x/6+y*y/6]},20);
+plotSurface(function(x,y){return [x,y,x*x+y*y+2*x*y]},2);
+// drawList.push(new line(ogn,[8,12,8],"red"));
