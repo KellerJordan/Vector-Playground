@@ -1,6 +1,5 @@
 # Vector-Playground
 Webpage that renders vectors and can do vector math/matrix math. I wrote this to help me understand Vector Calculus more deeply.
 
-View the project [here](kellerjordan.github.io/Vector-Playground):
-
+View the project here: FIX THIS
 Screenshots:
