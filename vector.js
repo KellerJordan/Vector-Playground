@@ -7,8 +7,15 @@ function vMultiply(v,s){var result=[];for(var i in v){result.push(s*v[i])}return
 
 function vDotProduct(v1,v2){var result=0;for(var i in v1){result+=v1[i]*v2[i]}return result}
 
-//only 3 dimensions
-function vCrossProduct(v1,v2){return [mDeterminant([[v1[1],v1[2]],[v2[1],v2[2]]]),-1*mDeterminant([[v1[0],v1[2]],[v2[0],v2[2]]]),mDeterminant([[v1[0],v1[1]],[v2[0],v2[1]]])]}
+function vCrossProduct(vArr){
+	var r=[];
+	for(var i = 0; i<vArr.length+1; i++){
+		var d = mDeterminant(mSplice(vArr,i));
+		if(i % 2){d *= -1}
+		r.push(d);
+	}
+	return r;
+}
 
 function vDistance(v){return Math.sqrt(vDotProduct(v,v))}
 

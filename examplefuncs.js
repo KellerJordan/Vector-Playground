@@ -33,7 +33,7 @@ function plotPath(func,step,max){
 }
 
 function plotSurface(func,max){
-	var step=max/15;
+	var step=max/20;
 	for(var s=-1*max;s<max;s+=step){
 		var curr;
 		var prev=func(s,-1*max);
@@ -64,6 +64,6 @@ function isValid(point){
 // cPlot(cvect2);
 // cPlot(cMultiply(cvect1,cvect2));
 
-// plotSurface(function(x,y){return [x,y,Math.cos(x+y)+x*x/6+y*y/6]},20);
-plotSurface(function(x,y){return [x,y,x*x+y*y+2*x*y]},2);
+plotSurface(function(x,y){return [x,y,Math.cos(x+y)+x*x/6+y*y/6]},10);
+// plotSurface(function(x,y){return [x,y,x*x+y*y+2*x*y]},2);
 // drawList.push(new line(ogn,[8,12,8],"red"));
