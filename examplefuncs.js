@@ -22,48 +22,17 @@ var drawList=[new line([-.1*bound,0,0],[1.1*bound,0,0]), new line([0,-.1*bound,0
 // 	if(func.length==1){graph2(func,0);}
 // }
 
-function plotPath(func,step,max){
-	var curr;
-	var prev=func(0);
-	for(var t=step;t<max;t+=step){
-		curr=func(t);
-		drawList.push(new line(prev,vSubtract(curr,prev)));
-		prev=curr;
-	}
-}
+plot(function(x,y){return [x,y,Math.cos(x+y)+x*x/6+y*y/6]},-10,10);
 
-function plotSurface(func,max){
-	var step=max/20;
-	for(var s=-1*max;s<max;s+=step){
-		var curr;
-		var prev=func(s,-1*max);
-		for(var t=-1*max+step;t<max;t+=step){
-			curr=func(s,t);
-			if(isValid(prev)&&isValid(curr)){drawList.push(new line(prev,vSubtract(curr,prev)));}
-			// drawList.push(new line(prev,vSubtract(curr,prev)));
-			prev=curr;
-		}
-		var prev=func(-1*max,s);
-		for(var t=-1*max+step;t<max;t+=step){
-			curr=func(t,s);
-			if(isValid(prev)&&isValid(curr)){drawList.push(new line(prev,vSubtract(curr,prev)));}
-			// drawList.push(new line(prev,vSubtract(curr,prev)));
-			prev=curr;
-		}
-	}
-}
+// plot(function(x,y){return [x,y,Math.sin(x)*y]},-10,10);
+var a = [2,6,2];
+var b = [8,1,8];
+var c = [5,7,1];
+var d = [3,5,7];
+var p = vSubtract(a,b);
+var v = vDotProduct(a,c)-vDotProduct(b,d);
 
-function isValid(point){
-	for(var i in point){if(isNaN(point[i])){return false;}}
-	return true;
-}
-
-// var cvect1=[2,2];
-// var cvect2=[2,5];
-// cPlot(cvect1);
-// cPlot(cvect2);
-// cPlot(cMultiply(cvect1,cvect2));
-
-plotSurface(function(x,y){return [x,y,Math.cos(x+y)+x*x/6+y*y/6]},10);
-// plotSurface(function(x,y){return [x,y,x*x+y*y+2*x*y]},2);
-// drawList.push(new line(ogn,[8,12,8],"red"));
+// drawList.push(new line([0,0,v/p[2]],vSubtract(a,b),"red"));
+// plot(function(x,y){return [x,y,(vDotProduct(p,[x,y,0])-v)/(-1*p[2])]},-10,10);
+plot(function(x,y){return [x,(10-3*x)/4,0]},-10,10);
+// plot(function(x,y){return [x,y,Math.pow(x,3)*y]},-10,10);
