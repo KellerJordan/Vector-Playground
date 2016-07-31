@@ -3,5 +3,7 @@ Webpage that renders vectors and can do vector math/matrix math. I wrote this to
 
 View the project [here](http://kellerjordan.github.io/Vector-Playground).
 
-Screenshots:
-![image](https://cloud.githubusercontent.com/assets/18433116/17075606/69eccdc4-504d-11e6-9809-bdf952e6b835.png)
+### Function Rendering:
+![image](https://cloud.githubusercontent.com/assets/18433116/17275202/5a9b2e98-56b4-11e6-99f5-16cf6890be93.png)
+### Available Operations:
+![image](https://cloud.githubusercontent.com/assets/18433116/17275245/d102930e-56b5-11e6-8e0b-7da79d13a575.png)
