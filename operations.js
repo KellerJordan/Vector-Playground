@@ -1,6 +1,8 @@
+// MATHEMATICAL OPERATIONS
+// none of these functions check for matrix compatibility or throw errors. If incompatible matrices are used, expect strange results.
+
 // addition
 function add(u, v){
-	if(diff(u, v)){ return }
 	if(u.length){
 		var result = [];
 		for(var i in u){
@@ -13,19 +15,17 @@ function add(u, v){
 
 // multiplication and dot product
 function mult(u, v){
-	if(diff(u, v)){
-		// scalar multiplication
+	// u is a scalar
+	if(!u.length && v.length){
 		var result = [];
-		if(!u.length){
-			for(var i in v){ result.push(mult(v[i], u)) }
-			return result;
-		}
-		if(!v.length){
-			for(var i in u){ result.push(mult(u[i], v)) }
-			return result;
-		}
-		// incompatible
-		return;
+		for(var i in v){ result.push(mult(v[i], u)) }
+		return result;
+	}
+	// v is a scalar
+	if(!v.length && u.length){
+		var result = [];
+		for(var i in u){ result.push(mult(u[i], v)) }
+		return result;
 	}
 	if(u.length){
 		// matrix multiplication
@@ -68,17 +68,6 @@ function det(m){
 	var result = 0;
 	for(var i in m[0]){ result += Math.pow(-1, i) * m[0][i] * det(minor(m, 0, i)) }
 	return result;
-}
-
-// compatibility check
-function diff(u, v){
-	if(u.length == v.length){
-		for(var i in u){
-			if(diff(u[i], v[i])){ return true }
-		}
-		return false;
-	}
-	return true;
 }
 
 // MATRIX MANIPULATION
