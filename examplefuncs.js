@@ -10,9 +10,8 @@ var drawList=[new line([-.1*bound,0,0],[1.1*bound,0,0]), new line([0,-.1*bound,0
 // for(var i=0;i<arb;i++){drawList.push(new line(ogn,rotatePoint([100,0,0],i*Math.PI/(arb/2),0)))}
 // square(ogn,30);fractal(ogn,10);
 
-plot(function(x,y){return [x,y,Math.cos(x+y)+x*x/6+y*y/6]},-10,10);
+// plot(function(x,y){return [x,y,Math.cos(x+y)+x*x/6+y*y/6]},-10,10);
+// plot(function(x,y){return [x,y,Math.sqrt(y*y-x*x)]},-5,5);
+// plot(function(x,y){return [x,y,Math.sqrt(2*x-x*x)]},-5,5);
 
-// drawList.push(new line([0,0,v/p[2]],vSubtract(a,b),"red"));
-// plot(function(x,y){return [x,y,(vDotProduct(p,[x,y,0])-v)/(-1*p[2])]},-10,10);
-// plot(function(x,y){return [x,(10-3*x)/4,0]},-10,10);
-// plot(function(x,y){return [x,y,Math.pow(x,3)*y]},-10,10);
+plot(function(r, t){ return [r * Math.cos(t), r * Math.sin(t), Math.sin(5/r)] }, [0, 1.5], [0, 2 * Math.PI]);

@@ -1,45 +1,104 @@
-// MATRICES
-
-function mAdd(m1,m2){
-	if(!(m1[0].length==m2[0].length&&m1.length==m2.length)){return "incompatible dimensions"}
-	var result=[];
-	for(var i=0;i<m1.length;i++){
-		result.push(vAdd(m1[i],m2[i]));
-	}
-	return result;
-}
-
-function mDeterminant(m){
-	if(m.length==2){return m[0][0]*m[1][1]-m[0][1]*m[1][0]}
-	var result=0;
-	for(var i in m[0]){result+=Math.pow(-1,i)*m[0][i]*mDeterminant(mSplice(m.slice(1),i))}
-	return result;
-}
-
-function mSplice(m,missingCol){
-	var result=[];
-	for(var i in m){
-		result.push([]);
-		for(var j in m[i]){
-			if(!(j==missingCol)){
-				result[i].push(m[i][j]);
-			}
+// addition
+function add(u, v){
+	if(diff(u, v)){ return }
+	if(u.length){
+		var result = [];
+		for(var i in u){
+			result.push(add(u[i], v[i]));
 		}
+		return result;
 	}
+	return u + v;
+}
+
+// multiplication and dot product
+function mult(u, v){
+	if(diff(u, v)){
+		// scalar multiplication
+		var result = [];
+		if(!u.length){
+			for(var i in v){ result.push(mult(v[i], u)) }
+			return result;
+		}
+		if(!v.length){
+			for(var i in u){ result.push(mult(u[i], v)) }
+			return result;
+		}
+		// incompatible
+		return;
+	}
+	if(u.length){
+		// matrix multiplication
+		if(u[0].length){
+			var result = [];
+			for(var i in u){
+				result.push([]);
+				for(var j in u[i]){
+					result[i][j] = mult(u[i], col(v, j));
+				}
+			}
+			return result;
+		}
+		// dot product
+		var result = 0;
+		for(var i in u){ result += mult(u[i], v[i]) }
+		return result;
+	}
+	// normal multiplication
+	return u * v;
+}
+
+// cross product of n-1 n-vectors
+function cross(vArr){
+	var r=[];
+	for(var i = 0; i < vArr.length + 1; i++){
+		var d = det(minor(vArr, -1, i));
+		d *= Math.pow(-1, i + 1);
+		r.push(d);
+	}
+	return r;
+}
+
+// distance
+function dist(v){ return Math.sqrt(mult(v, v)) }
+
+// determinant
+function det(m){
+	if(m.length == 1){return m[0][0] }
+	var result = 0;
+	for(var i in m[0]){ result += Math.pow(-1, i) * m[0][i] * det(minor(m, 0, i)) }
 	return result;
 }
 
-function mMultiply(m1,m2){
-	if(!(m1[0].length==m2.length)){return "incompatible dimensions"}
-	var result=[];
-	for(var i=0;i<m1.length;i++){
-		result.push([]);
-		for(var j=0;j<m2[0].length;j++){
-			var mult=[];
-			for(var k=0;k<m2.length;k++){
-				mult.push(m2[k][j]);
+// compatibility check
+function diff(u, v){
+	if(u.length == v.length){
+		for(var i in u){
+			if(diff(u[i], v[i])){ return true }
+		}
+		return false;
+	}
+	return true;
+}
+
+// MATRIX MANIPULATION
+
+// returns ith column
+function col(m, i){
+	var result = [];
+	for(var j in m){ result.push(m[j][i]) }
+	return result;
+}
+
+// returns matrix missing i0th row and j0th column
+function minor(m, i0, j0){
+	var result = [];
+	for(var i in m){
+		if(i != i0){
+			result.push([]);
+			for(var j in m[i]){
+				if(j != j0){ result[result.length - 1].push(m[i][j]) }
 			}
-			result[i].push(vDotProduct(m1[i],mult));
 		}
 	}
 	return result;
@@ -48,13 +107,9 @@ function mMultiply(m1,m2){
 
 // COMPLEX PLANE
 
-function cMultiply(v1,v2){
-	return [v1[0]*v2[0]-v1[1]*v2[1],v1[0]*v2[1]+v1[1]*v2[0]];
-}
+function cMult(v1,v2){ return [v1[0] * v2[0] - v1[1] * v2[1], v1[0] * v2[1] + v1[1] * v2[0]] }
 
-function cPlot(v){
-	drawList.push(new line(ogn,[v[0],v[1],0]));
-}
+function cPlot(v){ drawList.push(new line(ogn, [v[0], v[1], 0])) }
 
 
 // CALCULUS
@@ -64,36 +119,6 @@ function cDerivative(func, pt){
 	var val=(func(pt+arb)-func(pt))/(arb);
 	return val;
 }
-
-// function cIntegral(func, pt){
-// 	var arb=Math.pow(10,-10);
-// 	var val=(func(pt+arb)-func(pt))*(arb);
-// 	return val;
-// } incorrect
-
-
-// VECTORS
-
-//could add checks for vectors same dimension
-function vAdd(v1,v2){var result=[];for(var i in v1){result.push(v1[i]+v2[i])}return result}
-
-function vSubtract(v1,v2){var result=[];for(var i in v1){result.push(v1[i]-v2[i])}return result}
-
-function vMultiply(v,s){var result=[];for(var i in v){result.push(s*v[i])}return result}
-
-function vDotProduct(v1,v2){var result=0;for(var i in v1){result+=v1[i]*v2[i]}return result}
-
-function vCrossProduct(vArr){
-	var r=[];
-	for(var i = 0; i<vArr.length+1; i++){
-		var d = mDeterminant(mSplice(vArr,i));
-		if(i % 2){d *= -1}
-		r.push(d);
-	}
-	return r;
-}
-
-function vDistance(v){return Math.sqrt(vDotProduct(v,v))}
 
 
 // COORDINATE SYSTEMS
@@ -108,46 +133,4 @@ function vRectangular(v){
 	var r=[v[0]*Math.cos(v[1]),v[0]*Math.sin(v[1])];
 	for(var i=2;i<v.length;i++){r.push(v[i])}
 	return r;
-}
-
-
-// EXAMPLE SURFACES
-
-class pGram{
-	constructor(v1,v2){
-		this.line1=new line(ogn,v1);
-		this.line2=new line(ogn,v2);
-		this.line3=new line(v1,v2);
-		this.line4=new line(v2,v1);
-	}
-	draw(){
-		this.line1.draw();
-		this.line2.draw();
-		this.line3.draw();
-		this.line4.draw();
-	}
-}
-
-function fractal(c,r){
-	square(c,r);
-	if(r<30*Math.pow(3,-3)){return}
-	fractal([c[0]-2*r,c[1]-2*r,c[2]],r/3);
-	fractal([c[0],c[1]-2*r,c[2]],r/3);
-	fractal([c[0]+2*r,c[1]-2*r,c[2]],r/3);
-	fractal([c[0]+2*r,c[1],c[2]],r/3);
-	fractal([c[0]+2*r,c[1]+2*r,c[2]],r/3);
-	fractal([c[0],c[1]+2*r,c[2]],r/3);
-	fractal([c[0]-2*r,c[1]+2*r,c[2]],r/3);
-	fractal([c[0]-2*r,c[1],c[2]],r/3);
-}
-
-function square(c,s){
-	var p1=[c[0]-s,c[1]-s,c[2]];
-	var p2=[c[0]+s,c[1]-s,c[2]];
-	var p3=[c[0]+s,c[1]+s,c[2]];
-	var p4=[c[0]-s,c[1]+s,c[2]];
-	drawList.push(new line(p1,vSubtract(p2,p1)));
-	drawList.push(new line(p2,vSubtract(p3,p2)));
-	drawList.push(new line(p3,vSubtract(p4,p3)));
-	drawList.push(new line(p4,vSubtract(p1,p4)));
 }
