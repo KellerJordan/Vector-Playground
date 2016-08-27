@@ -7,7 +7,10 @@ $(window).on("mousewheel", function(e){
 	rotY = rotY0 - 3 * Math.PI/2 * (wW/2 - e.clientX + 9) / (wW / 2);
 	rotZ = rotZ0 - Math.PI / 2 * (wH / 2 - e.clientY + 4.5) / (wH / 2);
 	if(rotZ > 1 * Math.PI / 2){ rotZ = 1 * Math.PI / 2} if(rotZ < 0){ rotZ = 0 }
-}).on("keydown mousemove mousewheel load", function(){ render() });
+}).on("keydown mousemove mousewheel", function(){
+	render();
+});
+// add load event if desired
 // ctrl and alt keys cause their own events?
 
 
@@ -74,7 +77,7 @@ function plotPath(func, x0, x1){
 	var prev = func(x0);
 	for(var t = x0; t < x1; t += step){
 		curr = func(t);
-		if(isValid(prev) && isValid(curr)){ drawList.push(new line(prev, add(curr, mult(-1, prev)))) }
+		if(isValid(prev) && isValid(curr)){ drawList.push(new line(prev, add(curr, mult(prev, -1)))) }
 		prev = curr;
 	}
 }

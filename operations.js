@@ -15,33 +15,31 @@ function add(u, v){
 
 // multiplication and dot product
 function mult(u, v){
-	// u is a scalar
-	if(!u.length && v.length){
-		var result = [];
-		for(var i in v){ result.push(mult(v[i], u)) }
-		return result;
-	}
-	// v is a scalar
-	if(!v.length && u.length){
-		var result = [];
-		for(var i in u){ result.push(mult(u[i], v)) }
-		return result;
-	}
 	if(u.length){
+		// scalar multiplication
+		if(!v.length){
+			var result = [];
+			for(var i in u){
+				result.push(mult(u[i], v))
+			}
+			return result;
+		}
 		// matrix multiplication
 		if(u[0].length){
 			var result = [];
 			for(var i in u){
 				result.push([]);
-				for(var j in u[i]){
-					result[i][j] = mult(u[i], col(v, j));
+				for(var j in v[0]){
+					result[result.length - 1].push(mult(u[i], col(v, j)));
 				}
 			}
 			return result;
 		}
 		// dot product
 		var result = 0;
-		for(var i in u){ result += mult(u[i], v[i]) }
+		for(var i in u){
+			result += mult(u[i], v[i])
+		}
 		return result;
 	}
 	// normal multiplication
