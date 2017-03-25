@@ -1,6 +1,10 @@
 // drawing axes with length bound
-var bound=10;
-var drawList=[new line([-.1*bound,0,0],[1.1*bound,0,0]), new line([0,-.1*bound,0],[0,1.1*bound,0]), new line([0,0,-.1*bound],[0,0,1.1*bound])];
+var bound = 10;
+var drawList = [
+    new line([-.1*bound,0,0],[1.1*bound,0,0]),
+    new line([0,-.1*bound,0],[0,1.1*bound,0]),
+    new line([0,0,-.1*bound],[0,0,1.1*bound])
+];
 
 // var vect1=[10,6,7], vect2=[-9,10,8];
 // var vect3=vCrossProduct(vect1,vect2);
@@ -14,5 +18,5 @@ var drawList=[new line([-.1*bound,0,0],[1.1*bound,0,0]), new line([0,-.1*bound,0
 // plot(function(x,y){return [x,y,Math.sqrt(y*y-x*x)]},-5,5);
 // plot(function(x,y){return [x,y,Math.sqrt(2*x-x*x)]},-5,5);
 
-plot(function(x, y){ return [x, y, 2-x*x-y*y]}, [-2, 2], [-2, 2]);
-plot(function(x, y){ return [x, y, Math.sqrt(x*x+y*y)]}, [-2, 2], [-2, 2]);
+plot((x,y) => [x, y, 2-x*x-y*y], [-2, 2], [-2, 2]);
+plot((x,y) => [x, y, Math.sqrt(x*x+y*y)], [-2, 2], [-2, 2]);
